@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.epam.com/Tariff"
+        xmlns:tns="http://www.epam.com/Tariff">
+    <element name="tariffs">
+        <complexType>
+            <sequence>
+                <element name="tariff" type="tns:Tariff" minOccurs="1" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="Tariff">
+        <sequence>
+            <element name="name" type="tns:Name" />
+            <element name="operatorName" type="tns:OperatorName" />
+            <element name="payroll" type="double" />
+            <element name="smsPrice" type="double" />
+            <element name="callPrice" type="tns:CallPrice" />
+            <element name="parameter" type="tns:Parameter" />
+        </sequence>
+    </complexType>
+
+    <simpleType name="Name">
+        <restriction base="string">
+            <pattern value="[a-zA-Z]+"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="OperatorName">
+        <restriction base="string">
+            <pattern value="[a-zA-Z]+"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="CallPrice">
+        <sequence>
+            <element name="intraCallPrice" type="double"/>
+            <element name="externalCallPrice" type="double"/>
+            <element name="landLineCallPrice" type="double"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="Parameter">
+        <sequence>
+            <element name="hasFavouriteNumber" type="boolean"/>
+            <element name="typeTariff" type="tns:TypeTariff"/>
+            <element name="getOperatorPrice" type="double"/>
+        </sequence>
+    </complexType>
+
+    <simpleType name="TypeTariff">
+            <restriction base="string">
+                <enumeration value="twelveSecond"/>
+                <enumeration value="oneMinute"/>
+            </restriction>
+    </simpleType>
+
+</schema>

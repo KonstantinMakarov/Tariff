@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:tariffs xmlns:tns="http://www.epam.com/Tariff" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.epam.com/Tariff tariff.xsd
+http://www.epam.com/Tariff ">
+    <tariff>
+        <name>EasyToSay</name>
+        <operatorName>MTS</operatorName>
+        <payroll>50000</payroll>
+        <smsPrice>500</smsPrice>
+        <callPrice>
+            <intraCallPrice>200</intraCallPrice>
+            <externalCallPrice>800</externalCallPrice>
+            <landLineCallPrice>1000</landLineCallPrice>
+        </callPrice>
+        <parameter>
+            <hasFavouriteNumber>true</hasFavouriteNumber>
+            <typeTariff>oneMinute</typeTariff>
+            <getOperatorPrice>10000</getOperatorPrice>
+        </parameter>
+    </tariff>
+
+    <tariff>
+        <name>Native</name>
+        <operatorName>MTS</operatorName>
+        <payroll>30000</payroll>
+        <smsPrice>500</smsPrice>
+        <callPrice>
+            <intraCallPrice>300</intraCallPrice>
+            <externalCallPrice>500</externalCallPrice>
+            <landLineCallPrice>1000</landLineCallPrice>
+        </callPrice>
+        <parameter>
+            <hasFavouriteNumber>true</hasFavouriteNumber>
+            <typeTariff>twelveSecond</typeTariff>
+            <getOperatorPrice>0</getOperatorPrice>
+        </parameter>
+    </tariff>
+
+    <tariff>
+        <name>NewNorm</name>
+        <operatorName>Velcom</operatorName>
+        <payroll>60000</payroll>
+        <smsPrice>200</smsPrice>
+        <callPrice>
+            <intraCallPrice>100</intraCallPrice>
+            <externalCallPrice>800</externalCallPrice>
+            <landLineCallPrice>1300</landLineCallPrice>
+        </callPrice>
+        <parameter>
+            <hasFavouriteNumber>true</hasFavouriteNumber>
+            <typeTariff>oneMinute</typeTariff>
+            <getOperatorPrice>20000</getOperatorPrice>
+        </parameter>
+    </tariff>
+</tns:tariffs>
