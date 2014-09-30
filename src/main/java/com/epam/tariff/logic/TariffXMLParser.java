@@ -1,5 +1,7 @@
 package com.epam.tariff.logic;
 
+import com.epam.tariff.entity.CallPrice;
+import com.epam.tariff.entity.Parameter;
 import com.epam.tariff.entity.Tariff;
 import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 import org.w3c.dom.Document;
@@ -11,6 +13,7 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class TariffXMLParser {
     private ArrayList<Tariff> tariffs = new ArrayList<Tariff>();
@@ -29,31 +32,45 @@ public class TariffXMLParser {
         }
     }
 
-    public ArrayList<Tariff> getData() {
-        return (ArrayList<Tariff>) Collections.unmodifiableList(tariffs);
+    public List<Tariff> getData() {
+        return Collections.unmodifiableList(tariffs);
     }
 
     public void analyze(Element root) {
         NodeList tariffList = root.getElementsByTagName("tariff");
-        Tariff tariff = null;
         for(int i = 0; i < tariffList.getLength(); i++){
-            tariff = new Tariff();
             Element tariffElement = (Element) tariffList.item(i);
-            tariff.setName(getBabyValue(tariffElement, "name"));
-            tariff.setOperatorName(getBabyValue(tariffElement, "OperatorName"));
+            Tariff tariff = buildTariff(tariffElement);
+            tariffs.add(tariff);
         }
     }
 
-    private String getBabyValue(Element parent, String childName) {
-        Element child = getBaby(parent, childName);
-        Node node = child.getFirstChild();
-        String value = node.getNodeValue();
-        return value;
+    private Tariff buildTariff(Element tariffElement) {
+        Tariff tariff = new Tariff();
+        tariff.setName(getElementTextContent(tariffElement, "name"));
+        tariff.setOperatorName(getElementTextContent(tariffElement, "operatorName"));
+        tariff.setPayroll(Double.parseDouble(getElementTextContent(tariffElement, "payroll")));
+        tariff.setSmsPrice(Double.parseDouble(getElementTextContent(tariffElement, "smsPrice")));
+
+        CallPrice callPrice = tariff.getCallPrice();
+        Element elementCallPrice = (Element) tariffElement.getElementsByTagName("callPrice").item(0);
+        callPrice.setIntraCallPrice(Double.parseDouble(getElementTextContent(elementCallPrice, "intraCallPrice")));
+        callPrice.setExternalCallPrice(Double.parseDouble(getElementTextContent(elementCallPrice, "externalCallPrice")));
+        callPrice.setLandLineCallPrice(Double.parseDouble(getElementTextContent(elementCallPrice, "landLineCallPrice")));
+
+        Parameter parameter = tariff.getParameter();
+        Element elementParameter = (Element) tariffElement.getElementsByTagName("parameter").item(0);
+        parameter.setHasFavouriteNumber(Boolean.parseBoolean(getElementTextContent(elementParameter, "hasFavouriteNumber")));
+        parameter.setTypeTariff(getElementTextContent(elementParameter, "typeTariff"));
+        parameter.setGetOperatorPrice(Double.parseDouble(getElementTextContent(elementParameter, "getOperatorPrice")));
+
+        return tariff;
     }
 
-    private Element getBaby(Element parent, String childName) {
-        NodeList nodeList = parent.getElementsByTagName("name");
-        Element child  = (Element) nodeList.item(0);
-        return child;
+    private String getElementTextContent(Element parent, String childName) {
+        NodeList nList = parent.getElementsByTagName(childName);
+        Node node = nList.item(0);
+        String text = node.getTextContent();
+        return text;
     }
 }

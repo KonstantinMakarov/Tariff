@@ -5,6 +5,13 @@ package com.epam.tariff.entity;
  */
 public class Tariff {
     private String name;
+    private String operatorName;
+    private double payroll;
+    private double smsPrice;
+
+    private CallPrice callPrice = new CallPrice();
+    private Parameter parameter = new Parameter();
+
 
     public String getName() {
         return name;
@@ -38,12 +45,24 @@ public class Tariff {
         this.smsPrice = smsPrice;
     }
 
-    private String operatorName;
-    private double payroll;
-    private double smsPrice;
+    public CallPrice getCallPrice() {
+        return callPrice;
+    }
 
-    private CallPrice callPrice;
-    private Parameter parameter;
+    public Parameter getParameter() {
+        return parameter;
+    }
 
 
+    @Override
+    public String toString() {
+        return "Tariff{" +
+                "name='" + name + '\'' +
+                ", operatorName='" + operatorName + '\'' +
+                ", payroll=" + payroll +
+                ", smsPrice=" + smsPrice +
+                ", callPrice=" + callPrice.toString() +
+                ", parameter=" + parameter.toString() +
+                '}';
+    }
 }
