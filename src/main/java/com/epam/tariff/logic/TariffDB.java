@@ -2,10 +2,10 @@ package com.epam.tariff.logic;
 
 import com.epam.tariff.entity.Tariff;
 import com.mysql.jdbc.PreparedStatement;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -16,16 +16,17 @@ public class TariffDB {
     List<Tariff> data;
     final static String columnList = "(name, operatorName, payroll, smsPrice, intraCallPrice," +
             "externalCallPrice, landLineCallPrice, hasFavouriteNumber, typeTariff, getOperatorPrice)";
+
+    public final static Logger logger = Logger.getLogger(com.epam.tariff.logic.TariffDB.class);
+
     public TariffDB(List<Tariff> data) {
         this.data = data;
-        //System.out.println(data);
         createDB();
     }
 
     private void createDB() {
         Connection connection = null;
         PreparedStatement statement = null;
-        ResultSet resultSet =null;
         try{
             Class.forName("org.gjt.mm.mysql.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1/xmltojdbc", "root", "root");
@@ -46,9 +47,17 @@ public class TariffDB {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("SQL working error: " + e.getMessage());
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            logger.error("Incorrect driver: " +e.getMessage());
+        }
+        finally {
+            try{
+                if(connection != null){ connection.close();}
+                if(statement != null) {statement.close();}
+            } catch (SQLException e) {
+                logger.error("SQL closing error: " + e.getMessage());
+            }
         }
     }
 

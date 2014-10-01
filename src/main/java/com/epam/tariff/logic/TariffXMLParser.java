@@ -4,6 +4,7 @@ import com.epam.tariff.entity.CallPrice;
 import com.epam.tariff.entity.Parameter;
 import com.epam.tariff.entity.Tariff;
 import com.sun.org.apache.xerces.internal.parsers.DOMParser;
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -17,6 +18,7 @@ import java.util.List;
 
 public class TariffXMLParser {
     private ArrayList<Tariff> tariffs = new ArrayList<Tariff>();
+    public final static Logger logger = Logger.getLogger(com.epam.tariff.logic.TariffXMLParser.class);
 
     public TariffXMLParser(String xmlFileName) {
         try{
@@ -26,9 +28,9 @@ public class TariffXMLParser {
             Element root = document.getDocumentElement();
             analyze(root);
         } catch (SAXException e) {
-            e.printStackTrace();
+            logger.error("XML parsing error: " + e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("IO error: " + e.getMessage());
         }
     }
 
